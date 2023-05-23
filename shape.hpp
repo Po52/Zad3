@@ -1,29 +1,29 @@
-#ifndef SHAPE_TREE_HPP
-#define SHAPE_TREE_HPP
+#ifndef SHAPE_SHAPE_HPP
+#define SHAPE_SHAPE_HPP
+using namespace std;
 
-
-class tree {
-private:
+class shape {
+protected:
     int height;
-    char symbol;
+    int width;
     string color;
-    int **tab;
+    char symbol;
 
+    int** tab;
 
 public:
+    void Print();
 
-    void printTree();
+    virtual void Fill() = 0;
+    void Alloc();
 
-    tree(int h, char s, string c);
-    ~tree();
+    shape(int h, char s, string c);
+    ~shape();
 
-    void printTreeFromTab();
-    int getHeight();
-    int getWidth();
+    static int counter;
 
-    friend class Forest;
-
+    friend class forest;
 };
 
 
-#endif //SHAPE_TREE_HPP
+#endif //SHAPE_SHAPE_HPP
