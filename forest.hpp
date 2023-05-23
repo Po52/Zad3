@@ -1,15 +1,22 @@
-#include "Tree.hpp"
+#ifndef SHAPE_FOREST_HPP
+#define SHAPE_FOREST_HPP
+#include "shape.hpp"
 
-class Forest{
-  public:
-    int H, W;
-    vector<Tree *> trees;
+class forest {
+private:
     int **tab;
+    //int tabX, tabY;
+    //vector<Tree*> trees;
+    int H, W;
+    vector<shape*> trees;
+public:
+    forest(int H, int W);
+    ~forest();
+        void AddShape(shape* sh, int y, int x);
+    void PrintForest();
 
-  Forest(int h, int w);
-  ~Forest();
-
-  void AddTree(int h, char s, string c, int y, int x);
-  void PrintForest();
-  
+    forest& operator+=(shape* sh);
 };
+
+
+#endif //SHAPE_FOREST_HPP
