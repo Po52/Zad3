@@ -1,61 +1,80 @@
 #include <iostream>
 using namespace std;
+#include "tree.hpp"
 
-#include "Tree.hpp" 
+void tree::printTree(){
+    int i,j;
+    cout << color; // color on
+    for(i=0; i<height;i++){
+        for(j=height-i; j>0; j--)
+            cout << " ";
 
-void Tree::printTree(){
-int i,j;
-  cout << color;
-  
-  for(j=0; j<height; j++)
-  {
-    for(i=height-j; i>0; i--)
-       cout << ' '; 
-    
-    for(i=0; i<=2*j; i++)
-       cout << "*";
-    
-     cout << endl;
-   
-  }
-    cout << "\033[0m";
-  
+        for(j=0; j<2*i+1; j++){
+            cout << symbol;
+            //tab[i][j+height-i] = 1;
+        }
+
+        cout << endl;
+    }
+    cout << "\033[0m" << endl;  // color off
+
+    printTreeFromTab();
+
 }
 
-Tree::Tree(int h, char s, string c)
+void tree::printTreeFromTab()
 {
-  height = h;
-  symbol = s;
- 
-  if(c == "green")
-    { color = "\033[1;32m"; }
-  if(c == "red")
-    { color = "\033[1;31m"; }
-  if(c == "yellow")
-    { color = "\033[1;33m"; }
-
-  int i,j;
-
-  tab = new int*[height];
-  for(j=0; j<height; j++){
-    tab[j] = new int[2*height-1];
-  
-    for(i=0; i<2*height-1; i++)
-      tab[j][i] = 0;
-  }
-
-  for(j=0; j<height; j++)
-  {   
-    for(i=height-j-1; i<height-j+2*j; i++)
-       tab[j][i] = 1;
-   }
+    int i,j;
+    for(i=0; i<height; i++){
+        for(j=0; j<2*height+1; j++)
+            cout << tab[i][j];
+        cout << endl;
+    }
 }
 
-Tree::~Tree(){
-   int j;
-   cout << "Kasuje drzewo\n" << endl;
+tree::tree(int h, char s, string c)
+{
+    int i,j;
+    height = h;
+    symbol = s;
 
-   for(j=0; j<height; j++)
-     delete tab[j];
-   delete tab;
+    if(c == "red") color = "\033[1;31m";
+    if(c == "green") color = "\033[0;32m";
+    if(c == "bgreen") color = "\033[1;32m";
+    if(c == "yellow") color = "\033[1;33m";
+    if(c == "blue") color = "\033[1;34m";
+
+    tab = new int*[height];
+    for(i=0; i<height; i++){
+        tab[i] = new int[2*height+1];
+        for(j=0; j<2*height+1; j++)
+            tab[i][j] = 0;
+    }
+
+    for(i=0; i<height;i++){
+        for(j=0; j<2*i+1; j++){
+            tab[i][j+height-i] = 1;
+        }
+    }
+
+}
+
+tree::~tree()
+{
+    int i;
+
+    for(i=0; i<height; i++)
+        delete tab[i];
+    delete tab;
+
+    cout << "kas " << symbol << endl;
+
+}
+
+int tree::getHeight(){
+    return height;
+}
+
+int tree::getWidth(){
+    return height*2+1;
 }
